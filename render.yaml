@@ -1,0 +1,25 @@
+# Render Blueprint for Movie Night Picker.
+# A single Web Service builds the React frontend and runs the Express backend,
+# which serves the built frontend (same-origin, so no CORS is needed).
+#
+# After importing this repo as a Blueprint on Render, set the secret env vars
+# (MONGO_URI, SESSION_SECRET) in the dashboard — they are intentionally not
+# committed here.
+services:
+  - type: web
+    name: movie-night-picker
+    runtime: node
+    plan: free
+    buildCommand: >
+      cd frontend && npm install && npm run build &&
+      cd ../backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_NAME
+        value: movie_night
+      - key: MONGO_URI
+        sync: false
+      - key: SESSION_SECRET
+        sync: false

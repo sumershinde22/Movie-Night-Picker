@@ -1,0 +1,72 @@
+.session-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+}
+
+.session-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.session-card-title {
+  margin: 0 0 0.2rem;
+  font-size: 1.15rem;
+}
+
+.session-card-meta {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.session-status {
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.status-open {
+  color: var(--accent-2);
+}
+
+.status-closed {
+  color: var(--muted);
+}
+
+.session-card-line {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+.session-card-winner {
+  margin: 0.5rem 0;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.session-card-candidates {
+  margin-top: 0.75rem;
+}
+
+.session-card-candidates summary {
+  cursor: pointer;
+  color: var(--accent-2);
+}
+
+.session-card-candidates ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.session-card-candidate-meta {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.session-card-empty {
+  color: var(--muted);
+  font-size: 0.85rem;
+}

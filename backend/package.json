@@ -1,0 +1,31 @@
+{
+  "name": "movie-night-picker-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Movie Night Picker (Node + Express + MongoDB native driver + Passport)",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node seed.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "author": "Sumer Shinde & Catherine Han",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongodb": "^6.8.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3"
+  }
+}

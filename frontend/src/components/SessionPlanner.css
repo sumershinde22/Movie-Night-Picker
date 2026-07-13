@@ -1,0 +1,26 @@
+.session-planner h2 {
+  margin-bottom: 0.25rem;
+}
+
+.session-planner-sub {
+  color: var(--muted);
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.session-planner-heading {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.session-planner-empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 2rem;
+}
+
+.session-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
