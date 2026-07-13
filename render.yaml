@@ -10,8 +10,11 @@ services:
     name: movie-night-picker
     runtime: node
     plan: free
+    # NODE_ENV=production makes `npm install` skip devDependencies, but the
+    # frontend needs Vite (a devDependency) to build — so force dev deps there
+    # with --include=dev. The backend install stays production-only.
     buildCommand: >
-      cd frontend && npm install && npm run build &&
+      cd frontend && npm install --include=dev && npm run build &&
       cd ../backend && npm install
     startCommand: cd backend && npm start
     envVars:
