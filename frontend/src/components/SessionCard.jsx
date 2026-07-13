@@ -1,5 +1,4 @@
-// Displays one movie night session: its participants, mood filter, candidate
-// movies, and the winning pick if one has been chosen (US-04, Catherine).
+// Displays one movie night session: its participants, mood filter, candidate movies, and the winning pick if one has been chosen.
 import PropTypes from 'prop-types';
 import './SessionCard.css';
 

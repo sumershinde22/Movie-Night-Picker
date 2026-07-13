@@ -1,6 +1,4 @@
-// US-02: Movie Night planner. Lets a host configure a new session (inviting
-// friends and applying a mood filter) and shows their session history — which
-// doubles as the movie-night history log.
+// US-02: Movie Night planner. Lets a host configure a new session (inviting friends and applying a mood filter) and shows their session history — which doubles as the movie-night history log.
 import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { sessionsApi } from '../api.js';

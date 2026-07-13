@@ -1,5 +1,5 @@
 // Passport authentication setup using the local (username + password) strategy.
-// Passwords are hashed with bcryptjs; sessions are persisted via express-session.
+// Passwords are hashed with bcryptjs
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcryptjs';

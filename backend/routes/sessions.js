@@ -1,11 +1,5 @@
 // US-02: Create and configure a Movie Night Session.
-// A session gathers candidate movies from the host's (and invited friends')
-// watchlists, optionally narrowed by a mood filter or max runtime.
-//
-// NOTE FOR CATHERINE (US-03 / US-04): voting and the random picker build on top
-// of the documents created here. Each session stores `candidates` (with a stable
-// `movieId` per candidate), an empty `votes` object, and `winningPick: null`.
-// Add PATCH /:id/vote and PATCH /:id/pick routes below the marked section.
+// A session gathers candidate movies from the host's (and invited friends') watchlists, optionally narrowed by a mood filter or max runtime.
 import express from 'express';
 import { ObjectId } from 'mongodb';
 import {
@@ -86,8 +80,8 @@ router.post('/', async (req, res, next) => {
       maxRuntime:
         !Number.isNaN(maxRuntime) && maxRuntime > 0 ? maxRuntime : null,
       candidates,
-      votes: {}, // filled in by US-03 (Catherine)
-      winningPick: null, // filled in by US-04 (Catherine)
+      votes: {},
+      winningPick: null,
       status: 'open',
       createdAt: now,
     };
@@ -152,10 +146,5 @@ router.delete('/:id', async (req, res, next) => {
     next(err);
   }
 });
-
-// ---------------------------------------------------------------------------
-// US-03 / US-04 (Catherine) — add voting and picker routes below this line.
-// e.g. router.patch('/:id/vote', ...)  and  router.patch('/:id/pick', ...)
-// ---------------------------------------------------------------------------
 
 export default router;

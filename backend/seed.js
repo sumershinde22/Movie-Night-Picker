@@ -1,9 +1,5 @@
 // Seed script — populates the database with 1000+ synthetic records.
 // Run with: npm run seed
-//
-// Creates a set of demo users (each with a hashed password) and generates
-// 1,200 movie watchlist entries spread across them. Also creates one known
-// demo account you can log in with: username "demo", password "password".
 import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import {
@@ -76,7 +72,6 @@ const TITLE_NOUN = [
   'Frontier',
 ];
 
-// Deterministic-ish random helpers (no external faker dependency).
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }

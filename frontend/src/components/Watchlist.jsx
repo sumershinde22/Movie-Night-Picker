@@ -1,6 +1,4 @@
-// US-01: Personal watchlist manager. Orchestrates the full CRUD flow —
-// listing movies, and creating / editing / deleting them via MovieForm and
-// MovieCard child components.
+// US-01: Personal watchlist manager. Orchestrates the full CRUD flow — listing movies, and creating / editing / deleting them via MovieForm and MovieCard child components.
 import { useState, useEffect, useCallback } from 'react';
 import { moviesApi } from '../api.js';
 import MovieForm from './MovieForm.jsx';

@@ -1,6 +1,5 @@
 // Movie Night Picker — Express server.
-// Serves the JSON API under /api and the built React frontend for everything
-// else, so the whole app is same-origin (no CORS library needed).
+// Serves the JSON API under /api and the built React frontend for everything else, so the whole app is same-origin.
 import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -25,12 +24,6 @@ async function start() {
 
   const app = express();
   app.use(express.json());
-
-  // Render (and most hosts) terminate HTTPS at a proxy. Trusting it lets
-  // express-session send the `secure` session cookie in production.
-  if (process.env.NODE_ENV === 'production') {
-    app.set('trust proxy', 1);
-  }
 
   // Persist login sessions in MongoDB so they survive server restarts.
   app.use(

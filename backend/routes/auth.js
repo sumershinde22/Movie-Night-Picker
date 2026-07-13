@@ -1,5 +1,5 @@
 // Authentication routes: register, login, logout, and current-user lookup.
-// Uses Passport's local strategy (configured in config/passport.js).
+// Uses Passport's local strategy.
 import express from 'express';
 import passport from 'passport';
 import bcrypt from 'bcryptjs';
@@ -54,7 +54,7 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-// POST /api/auth/login — authenticate with username + password.
+// POST /api/auth/login - authenticate with username + password.
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err);
