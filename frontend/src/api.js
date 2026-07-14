@@ -62,4 +62,9 @@ export const sessionsApi = {
       method: 'POST',
       body: JSON.stringify({ movieId, voteBool }),
     }),
+  setWinner: (sessionId, movieId) =>
+    request(`/api/sessions/${sessionId}/winner`, {
+      method: 'PATCH',
+      body: JSON.stringify({ movieId }),
+    }),
 };

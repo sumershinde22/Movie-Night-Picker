@@ -6,6 +6,7 @@ import { sessionsApi } from '../api.js';
 import './Session.css';
 import MovieCard from './MovieCard.jsx';
 import { MOVIE_CARD_TYPE } from '../enums.js';
+import SessionWeightedMovieWheel from './SessionWeightedMovieWheel.jsx';
 
 const SessionMovieVoteTally = ({ movieName, numVotes }) => {
   return (
@@ -22,6 +23,8 @@ function Session({ user }) {
   const [session, setSession] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showWheel, setShowWheel] = useState(false);
+  const [winnerDecisionFinished, setWinnerDecisionFinished] = useState(false);
 
   const { id } = useParams();
 
@@ -55,6 +58,7 @@ function Session({ user }) {
     };
   }, [loadSession]);
 
+  const isHost = session && String(session.hostId) === String(user._id);
   const activeMovie =
     session?.candidates.find(
       (movie) => session.votes?.[movie.movieId]?.[user._id] === undefined
@@ -68,6 +72,30 @@ function Session({ user }) {
   const numMaxVotes = session
     ? session.candidates.length * session.participants.length
     : 0;
+  const weightedWheelMovies = session
+    ? session.candidates
+        .map((candidate) => ({
+          ...candidate,
+          voteCount: Object.values(
+            session.votes?.[candidate.movieId] ?? {}
+          ).filter((vote) => vote === true).length,
+        }))
+        .filter((candidate) => candidate.voteCount > 0)
+    : [];
+
+  const handleWheelWinner = (movie) => {
+    setTimeout(async () => {
+      try {
+        const data = await sessionsApi.setWinner(id, movie.movieId);
+        setSession(data.session);
+        setWinnerDecisionFinished(true);
+        setError('');
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      }
+    }, 2000); // 2000ms is how long it takes the wheel to finish animating after it stops spinning.
+  };
 
   const handleVote = async (voteBool) => {
     try {
@@ -123,9 +151,54 @@ function Session({ user }) {
             </div>
           </div>
           <div className="session_summary">
-            {session.winningPick
-              ? `Voting has finished! The winner: ${session.winningPick.title}`
-              : `Voting in progress! Number of votes cast: (${numVotesCast}/${numMaxVotes})`}
+            {session.winningPick ? (
+              <>
+                <p className="session_final_choice">
+                  Voting has finished! The winner: {session.winningPick.title}
+                </p>
+                {isHost && !showWheel && !winnerDecisionFinished && (
+                  <div className="session_winner_options">
+                    <p>
+                      Visible to you only as the host:
+                      <br />
+                      Keep this result, or let a random wheel select a new
+                      winner? Only movies that received votes will be included
+                      in the wheel.
+                    </p>
+                    <div className="session_winner_option_buttons">
+                      <button
+                        type="button"
+                        className="success"
+                        onClick={() => setWinnerDecisionFinished(true)}
+                      >
+                        Keep this result
+                      </button>
+                      <button
+                        type="button"
+                        className="secondary"
+                        onClick={() => setShowWheel(true)}
+                      >
+                        Spin the wheel!
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {isHost && showWheel && !winnerDecisionFinished && (
+                  <SessionWeightedMovieWheel
+                    movies={weightedWheelMovies}
+                    onWinnerSelected={handleWheelWinner}
+                  />
+                )}
+                {isHost && showWheel && winnerDecisionFinished && (
+                  <p className="session_final_choice">
+                    The wheel has chosen a new winner:{' '}
+                    {session.winningPick.title}!
+                  </p>
+                )}
+              </>
+            ) : (
+              `Voting in progress! Number of votes cast: (${numVotesCast}/${numMaxVotes})`
+            )}
           </div>
         </>
       )}

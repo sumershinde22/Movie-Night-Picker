@@ -253,4 +253,69 @@ router.post('/:id/votes', async (req, res, next) => {
   }
 });
 
+// UPDATE (setWinner): PATCH /api/sessions/:id/winner
+// Only the host may replace the winning pick.
+router.patch('/:id/winner', async (req, res, next) => {
+  try {
+    const sessionId = req.params.id;
+    const { movieId } = req.body;
+    if (!ObjectId.isValid(sessionId)) {
+      return res.status(400).json({ error: 'Invalid session id.' });
+    }
+    if (!ObjectId.isValid(movieId)) {
+      return res.status(400).json({ error: 'Invalid movie id.' });
+    }
+    const sessionObjectId = new ObjectId(sessionId);
+    const movieObjectId = new ObjectId(movieId);
+    const hostId = new ObjectId(req.user._id);
+    const session = await sessionsCollection().findOne({
+      _id: sessionObjectId,
+      hostId,
+    });
+    if (!session) {
+      return res.status(404).json({
+        error: 'Session not found or you are not the host.',
+      });
+    }
+    if (session.status !== 'closed' || !session.winningPick) {
+      return res.status(400).json({
+        error: 'Voting must be finished before spinning the wheel.',
+      });
+    }
+    const selectedMovie = session.candidates.find(
+      (candidate) => candidate.movieId.toString() === movieObjectId.toString()
+    );
+    if (!selectedMovie) {
+      return res.status(400).json({
+        error: 'Selected movie is not a candidate in this session.',
+      });
+    }
+    const yesVoteCount = Object.values(session.votes?.[movieId] ?? {}).filter(
+      (vote) => vote === true
+    ).length;
+    if (yesVoteCount === 0) {
+      return res.status(400).json({
+        error: 'A movie with zero votes cannot win the wheel.',
+      });
+    }
+    const updatedSession = await sessionsCollection().findOneAndUpdate(
+      {
+        _id: sessionObjectId,
+        hostId,
+      },
+      {
+        $set: {
+          winningPick: selectedMovie,
+        },
+      },
+      {
+        returnDocument: 'after',
+      }
+    );
+    res.json({ session: updatedSession });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;
