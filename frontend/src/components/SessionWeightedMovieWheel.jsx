@@ -126,8 +126,6 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
     );
   }
 
-  console.log('slices', slices);
-
   return (
     <div className="weighted-wheel-container">
       <div className="weighted-wheel-pointer">

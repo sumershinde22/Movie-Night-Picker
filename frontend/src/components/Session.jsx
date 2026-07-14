@@ -106,11 +106,8 @@ function Session({ user }) {
     }
   };
 
-  console.log(session);
-  console.log('active movie', activeMovie);
-
   return (
-    <div className="session">
+    <section className="session">
       {error && <div className="error-banner">{error}</div>}
 
       {loading ? (
@@ -121,7 +118,7 @@ function Session({ user }) {
           <p className="session-sub">
             Vote for the movies you want to see! (tallies will update every 5s)
           </p>
-          <div className="session_content">
+          <article className="session_content">
             <div className="session_vote_cast">
               {activeMovie ? (
                 <MovieCard
@@ -149,8 +146,8 @@ function Session({ user }) {
                 />
               ))}
             </div>
-          </div>
-          <div className="session_summary">
+          </article>
+          <article className="session_summary">
             {session.winningPick ? (
               <>
                 <p className="session_final_choice">
@@ -199,10 +196,10 @@ function Session({ user }) {
             ) : (
               `Voting in progress! Number of votes cast: (${numVotesCast}/${numMaxVotes})`
             )}
-          </div>
+          </article>
         </>
       )}
-    </div>
+    </section>
   );
 }
 
