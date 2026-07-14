@@ -66,6 +66,14 @@ router.post('/', async (req, res, next) => {
       .limit(50)
       .toArray();
     const candidates = movies.map(toCandidate);
+    const participants = [
+      { userId: hostId, username: req.user.username },
+      ...invitedUsers.map((u) => ({ userId: u._id, username: u.username })),
+    ];
+    const votes = {};
+    candidates.forEach((candidate) => {
+      votes[candidate.movieId] = {}; // if userId1 votes for a movie, it will be recorded as: { userId1: true }
+    });
 
     const now = new Date();
     const sessionDoc = {
@@ -80,7 +88,7 @@ router.post('/', async (req, res, next) => {
       maxRuntime:
         !Number.isNaN(maxRuntime) && maxRuntime > 0 ? maxRuntime : null,
       candidates,
-      votes: {},
+      votes,
       winningPick: null,
       status: 'open',
       createdAt: now,
@@ -142,6 +150,104 @@ router.delete('/:id', async (req, res, next) => {
         .json({ error: 'Session not found or you are not the host.' });
     }
     res.json({ ok: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// UPDATE (vote): POST /api/sessions/:id/votes
+router.post('/:id/votes', async (req, res, next) => {
+  try {
+    const sessionId = req.params.id;
+    const { movieId, voteBool } = req.body;
+    const userId = req.user._id.toString();
+    if (!ObjectId.isValid(sessionId)) {
+      return res.status(400).json({ error: 'Invalid session id.' });
+    }
+    if (!ObjectId.isValid(movieId)) {
+      return res.status(400).json({ error: 'Invalid movie id.' });
+    }
+    if (typeof voteBool !== 'boolean') {
+      return res.status(400).json({ error: 'voteBool must be true or false.' });
+    }
+    const sessionObjectId = new ObjectId(sessionId);
+    const movieObjectId = new ObjectId(movieId);
+    const voteField = `votes.${movieId}.${userId}`;
+    let session = await sessionsCollection().findOneAndUpdate(
+      {
+        _id: sessionObjectId,
+        status: 'open',
+        'participants.userId': new ObjectId(userId),
+        'candidates.movieId': movieObjectId,
+      },
+      {
+        $set: {
+          [voteField]: voteBool,
+        },
+      },
+      {
+        returnDocument: 'after',
+      }
+    );
+    if (!session) {
+      return res.status(404).json({
+        error:
+          'Session not found, session is closed, you are not a participant, or the movie is not a candidate.',
+      });
+    }
+    const totalResponses = Object.values(session.votes ?? {}).reduce(
+      (total, movieVotes) => total + Object.keys(movieVotes).length,
+      0
+    );
+    const expectedResponses =
+      session.participants.length * session.candidates.length;
+    if (totalResponses >= expectedResponses) {
+      let winningMovieId = null;
+      let highestYesCount = -1;
+      for (const [candidateMovieId, movieVotes] of Object.entries(
+        session.votes ?? {}
+      )) {
+        const yesCount = Object.values(movieVotes).filter(
+          (voteBool) => voteBool === true
+        ).length;
+        if (yesCount > highestYesCount) {
+          highestYesCount = yesCount;
+          winningMovieId = candidateMovieId;
+        }
+      }
+      const winningMovie = session.candidates.find(
+        (candidate) => candidate.movieId.toString() === winningMovieId
+      );
+      if (!winningMovie) {
+        return res.status(500).json({
+          error: 'Winning movie not found in candidate list.',
+        });
+      }
+      const finalizedSession = await sessionsCollection().findOneAndUpdate(
+        {
+          _id: sessionObjectId,
+          status: 'open',
+          winningPick: null,
+        },
+        {
+          $set: {
+            winningPick: winningMovie,
+            status: 'closed',
+          },
+        },
+        {
+          returnDocument: 'after',
+        }
+      );
+      if (finalizedSession) {
+        session = finalizedSession;
+      } else {
+        session = await sessionsCollection().findOne({
+          _id: sessionObjectId,
+        });
+      }
+    }
+    res.json({ session });
   } catch (err) {
     next(err);
   }

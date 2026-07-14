@@ -1,5 +1,6 @@
 // Displays one movie night session: its participants, mood filter, candidate movies, and the winning pick if one has been chosen.
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import './SessionCard.css';
 
 function SessionCard({ session, currentUserId, onDelete }) {
@@ -18,11 +19,18 @@ function SessionCard({ session, currentUserId, onDelete }) {
             </span>
           </p>
         </div>
-        {isHost && (
-          <button type="button" className="danger" onClick={onDelete}>
-            Delete
-          </button>
-        )}
+        <div className="session-card-buttons">
+          <Link to={`/session/${session._id}`}>
+            <button type="button" className="success" onClick={() => {}}>
+              Join
+            </button>
+          </Link>
+          {isHost && (
+            <button type="button" className="danger" onClick={onDelete}>
+              Delete
+            </button>
+          )}
+        </div>
       </header>
 
       <p className="session-card-line">

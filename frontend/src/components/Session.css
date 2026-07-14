@@ -1,0 +1,43 @@
+.session h2 {
+  margin-bottom: 0.25rem;
+}
+
+.session-sub {
+  color: var(--muted);
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.session_content {
+  display: flex;
+  gap: 2rem;
+}
+
+.session_vote_cast {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+}
+
+.session_vote_tallies {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+}
+
+.session_movie_vote_tally {
+  display: flex;
+  justify-content: space-between;
+}
+
+.movie-card-finished-voting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.session_summary {
+  margin-top: 2rem;
+}
