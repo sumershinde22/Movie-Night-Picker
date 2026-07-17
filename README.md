@@ -23,7 +23,7 @@ Log in with the demo account — **username:** `demo`, **password:** `password`.
 ## Class Link
 
 CS5610 Web Development — Northeastern University
-(https://johnguerra.co/classes/webDevelopment_summer_2025/)
+(https://johnguerra.co/classes/webDevelopment_online_summer_2026/)
 
 ## Project Objective
 
