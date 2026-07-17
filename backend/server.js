@@ -25,6 +25,12 @@ async function start() {
   const app = express();
   app.use(express.json());
 
+  // Render (and most hosts) terminate HTTPS at a proxy and forward plain HTTP
+  // to the app. Trusting the proxy lets Express see X-Forwarded-Proto=https so
+  // that the `secure` session cookie is actually sent. Without this, login
+  // succeeds but no cookie is set and every later request is unauthenticated.
+  app.set('trust proxy', 1);
+
   // Persist login sessions in MongoDB so they survive server restarts.
   app.use(
     session({
