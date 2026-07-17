@@ -1,18 +1,9 @@
 # Render Blueprint for Movie Night Picker.
-# A single Web Service builds the React frontend and runs the Express backend,
-# which serves the built frontend (same-origin, so no CORS is needed).
-#
-# After importing this repo as a Blueprint on Render, set the secret env vars
-# (MONGO_URI, SESSION_SECRET) in the dashboard — they are intentionally not
-# committed here.
 services:
   - type: web
     name: movie-night-picker
     runtime: node
     plan: free
-    # NODE_ENV=production makes `npm install` skip devDependencies, but the
-    # frontend needs Vite (a devDependency) to build — so force dev deps there
-    # with --include=dev. The backend install stays production-only.
     buildCommand: >
       cd frontend && npm install --include=dev && npm run build &&
       cd ../backend && npm install

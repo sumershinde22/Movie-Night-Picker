@@ -148,10 +148,6 @@ cd backend && npm run lint && npm run format
 cd frontend && npm run lint && npm run format
 ```
 
-## Deployment
-
-See [DEPLOY.md](DEPLOY.md) for step-by-step Render deployment instructions.
-
 ## License
 
 [MIT](LICENSE)
