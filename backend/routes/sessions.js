@@ -80,10 +80,7 @@ router.post('/', async (req, res, next) => {
       title,
       hostId,
       hostName: req.user.displayName || req.user.username,
-      participants: [
-        { userId: hostId, username: req.user.username },
-        ...invitedUsers.map((u) => ({ userId: u._id, username: u.username })),
-      ],
+      participants,
       moodFilter: moodFilter || null,
       maxRuntime:
         !Number.isNaN(maxRuntime) && maxRuntime > 0 ? maxRuntime : null,

@@ -6,6 +6,13 @@ platform, then start a **Movie Night Session** and invite friends to vote on
 candidate movies pulled from everyone's lists. If the group can't agree, a
 weighted random-spin picker breaks the tie.
 
+## Live Demo
+
+**https://movie-night-picker-ni13.onrender.com**
+
+Log in with the demo account — **username:** `demo`, **password:** `password`.
+(The free Render tier sleeps when idle, so the first load may take ~30–60s.)
+
 ## Authors
 
 - **Sumer Shinde** — US-01 (Profile & Watchlist CRUD) and US-02 (Create Movie
@@ -124,8 +131,12 @@ Then open http://localhost:4000.
    mood filter (e.g. "scary") or a max runtime. The app automatically gathers
    matching unwatched movies from everyone's watchlists as candidates.
 4. Your past sessions are listed as a movie night history log.
-5. (US-03 / US-04) Participants vote on candidates and spin the weighted picker
-   to break ties.
+5. **Vote (US-03)** — open a movie night and click **Watch ✅** or **Skip ❌**
+   on each candidate. Live vote tallies refresh every few seconds, and once
+   everyone has voted the highest-voted movie is declared the winner.
+6. **Spin the wheel (US-04)** — if the host wants a tiebreaker, they can spin a
+   weighted random wheel where movies with more votes get a bigger slice, then
+   keep either the vote result or the wheel's pick.
 
 ## Linting & Formatting
 

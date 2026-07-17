@@ -1,0 +1,4 @@
+.session_movie_vote_tally {
+  display: flex;
+  justify-content: space-between;
+}

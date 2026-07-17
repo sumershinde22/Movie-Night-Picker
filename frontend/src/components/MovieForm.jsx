@@ -32,7 +32,7 @@ const EMPTY = {
   watched: false,
 };
 
-function MovieForm({ initialMovie, onSave, onCancel }) {
+function MovieForm({ initialMovie = null, onSave, onCancel = null }) {
   const [form, setForm] = useState(
     initialMovie
       ? {
@@ -179,11 +179,6 @@ MovieForm.propTypes = {
   }),
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
-};
-
-MovieForm.defaultProps = {
-  initialMovie: null,
-  onCancel: null,
 };
 
 export default MovieForm;

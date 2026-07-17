@@ -31,11 +31,6 @@
   width: 50%;
 }
 
-.session_movie_vote_tally {
-  display: flex;
-  justify-content: space-between;
-}
-
 .movie-card-finished-voting {
   display: flex;
   justify-content: center;

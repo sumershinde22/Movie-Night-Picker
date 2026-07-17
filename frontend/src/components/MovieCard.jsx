@@ -99,6 +99,7 @@ MovieCard.propTypes = {
   onDelete: PropTypes.func,
   onVoteNo: PropTypes.func,
   onVoteYes: PropTypes.func,
+  type: PropTypes.oneOf(Object.values(MOVIE_CARD_TYPE)),
 };
 
 export default MovieCard;

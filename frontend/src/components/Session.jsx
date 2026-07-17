@@ -7,17 +7,7 @@ import './Session.css';
 import MovieCard from './MovieCard.jsx';
 import { MOVIE_CARD_TYPE } from '../enums.js';
 import SessionWeightedMovieWheel from './SessionWeightedMovieWheel.jsx';
-
-const SessionMovieVoteTally = ({ movieName, numVotes }) => {
-  return (
-    <div className="session_movie_vote_tally">
-      <div className="session_movie_vote_tally--name">{movieName}</div>
-      <div className="session_movie_vote_tally--num_votes">
-        {numVotes} vote{numVotes == 1 ? '' : 's'}
-      </div>
-    </div>
-  );
-};
+import SessionMovieVoteTally from './SessionMovieVoteTally.jsx';
 
 function Session({ user }) {
   const [session, setSession] = useState(null);
