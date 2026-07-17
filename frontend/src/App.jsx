@@ -6,6 +6,7 @@ import Navbar from './components/Navbar.jsx';
 import AuthForm from './components/AuthForm.jsx';
 import Watchlist from './components/Watchlist.jsx';
 import SessionPlanner from './components/SessionPlanner.jsx';
+import Session from './components/Session.jsx';
 import './App.css';
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Watchlist />} />
           <Route path="/sessions" element={<SessionPlanner user={user} />} />
+          <Route path="/session/:id" element={<Session user={user} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

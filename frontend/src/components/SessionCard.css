@@ -70,3 +70,8 @@
   color: var(--muted);
   font-size: 0.85rem;
 }
+
+.session-card-buttons {
+  display: flex;
+  gap: 0.5rem;
+}

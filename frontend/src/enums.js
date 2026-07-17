@@ -1,0 +1,4 @@
+export const MOVIE_CARD_TYPE = Object.freeze({
+  MOVIE_CARD_EDIT: 'MOVIE_CARD_EDITABLE',
+  MOVIE_CARD_VOTE: 'MOVIE_CARD_VOTE',
+});

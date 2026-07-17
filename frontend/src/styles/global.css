@@ -9,6 +9,7 @@
   --muted: #9aa4bf;
   --accent: #ff5c8a;
   --accent-2: #6c8cff;
+  --success: #3fae73;
   --danger: #ff5b5b;
   --radius: 10px;
 }
@@ -52,6 +53,11 @@ button:disabled {
 
 button.secondary {
   background: var(--surface-2);
+  color: var(--text);
+}
+
+button.success {
+  background: var(--success);
   color: var(--text);
 }
 

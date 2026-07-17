@@ -26,9 +26,11 @@ a weighted random tiebreaker.
 
 ## Screenshot
 
-![Movie Night Picker screenshot](docs/screenshot.png)
-
-> Add a screenshot at `docs/screenshot.png` after running the app.
+Here are the screenshots of all four user stories.<br />
+<img src="docs/us01.png" width="500"><br />
+<img src="docs/us02.png" width="500"><br />
+<img src="docs/us03.png" width="500"><br />
+<img src="docs/us04.png" width="500"><br />
 
 ## Tech Stack
 

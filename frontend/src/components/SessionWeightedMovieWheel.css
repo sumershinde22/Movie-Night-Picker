@@ -1,0 +1,135 @@
+.weighted-wheel-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, 85vw);
+  aspect-ratio: 1;
+}
+
+.weighted-wheel-rotation {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.weighted-wheel {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.weighted-wheel text {
+  fill: #10131a;
+  font-size: 7px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+.weighted-wheel-border {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border: 14px solid rgba(238, 241, 248, 0.42);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 4px var(--surface-2),
+    0 18px 45px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.weighted-wheel-pointer {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  z-index: 4;
+  transform: translateX(-50%);
+}
+
+.weighted-wheel-pointer-triangle {
+  width: 0;
+  height: 0;
+  border-right: 24px solid transparent;
+  border-left: 24px solid transparent;
+  border-top: 56px solid var(--text);
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.45));
+}
+
+.weighted-wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: 110px;
+  height: 110px;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: 8px solid rgba(238, 241, 248, 0.45);
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.45);
+}
+
+.weighted-wheel-center:hover:not(:disabled) {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.weighted-wheel-center:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.weighted-wheel-winner {
+  position: absolute;
+  top: calc(100% + 1.5rem);
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  animation: weighted-wheel-flash 0.8s linear 2;
+}
+
+.weighted-wheel-empty {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+  text-align: center;
+}
+
+@keyframes weighted-wheel-flash {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (max-width: 600px) {
+  .weighted-wheel-border {
+    border-width: 9px;
+  }
+
+  .weighted-wheel-center {
+    width: 82px;
+    height: 82px;
+    border-width: 6px;
+    font-size: 0.9rem;
+  }
+
+  .weighted-wheel text {
+    font-size: 5px;
+  }
+
+  .weighted-wheel-winner {
+    font-size: 1.4rem;
+  }
+}

@@ -50,10 +50,21 @@ export const moviesApi = {
   remove: (id) => request(`/api/movies/${id}`, { method: 'DELETE' }),
 };
 
-// --- Sessions (US-02) ----------------------------------------------------
+// --- Sessions (US-02, US-03, US-04) ----------------------------------------------------
 export const sessionsApi = {
   list: () => request('/api/sessions'),
+  one: (id) => request(`/api/sessions/${id}`),
   create: (body) =>
     request('/api/sessions', { method: 'POST', body: JSON.stringify(body) }),
   remove: (id) => request(`/api/sessions/${id}`, { method: 'DELETE' }),
+  vote: (sessionId, movieId, voteBool) =>
+    request(`/api/sessions/${sessionId}/votes`, {
+      method: 'POST',
+      body: JSON.stringify({ movieId, voteBool }),
+    }),
+  setWinner: (sessionId, movieId) =>
+    request(`/api/sessions/${sessionId}/winner`, {
+      method: 'PATCH',
+      body: JSON.stringify({ movieId }),
+    }),
 };
