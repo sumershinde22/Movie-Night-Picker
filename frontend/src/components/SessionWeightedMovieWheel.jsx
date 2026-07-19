@@ -50,6 +50,7 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
   const [transition, setTransition] = useState('none');
   const [wheelWinner, setWheelWinner] = useState(null);
   const timeoutRef = useRef(null);
+  const winnerRef = useRef(null);
 
   const slices = useMemo(() => {
     const colors = generateRainbowColors(movies.length);
@@ -110,8 +111,11 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
 
     timeoutRef.current = window.setTimeout(async () => {
       try {
-        await onWinnerSelected(selectedSlice);
-        setWheelWinner(selectedSlice);
+      await onWinnerSelected(selectedSlice);
+      setWheelWinner(selectedSlice);
+      setTimeout(() => {
+        winnerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
       } finally {
         setIsSpinning(false);
       }
@@ -189,6 +193,7 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
 
       {wheelWinner && (
         <div
+          ref={winnerRef}
           className="weighted-wheel-winner"
           style={{ color: wheelWinner.color }}
         >
