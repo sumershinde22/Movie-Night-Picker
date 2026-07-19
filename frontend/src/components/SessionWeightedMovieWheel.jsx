@@ -162,12 +162,12 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
                     x={labelPosition.x}
                     y={labelPosition.y}
                     transform={`rotate(
-                      ${slice.middleAngle}
+                      ${slice.middleAngle + 90}
                       ${labelPosition.x}
                       ${labelPosition.y}
                     )`}
                   >
-                    {slice.title}
+                    {slice.title.length > 12 ? slice.title.slice(0, 12) + '…' : slice.title}
                   </text>
                 )}
               </g>
