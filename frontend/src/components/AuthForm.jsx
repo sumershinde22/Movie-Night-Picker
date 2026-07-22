@@ -91,9 +91,9 @@ function AuthForm({ onAuthed }) {
         </button>
       </form>
 
-      <p className="auth-hint">
+      {/* <p className="auth-hint">
         Try the demo account: <strong>demo</strong> / <strong>password</strong>
-      </p>
+      </p> */}
     </div>
   );
 }
