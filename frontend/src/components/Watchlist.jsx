@@ -72,6 +72,7 @@ function Watchlist() {
           Your watchlist is empty. Add your first movie above!
         </p>
       ) : (
+        // May be adding a pagination here would help if the list grows large.
         <div className="watchlist-grid">
           {movies.map((movie) => (
             <MovieCard
