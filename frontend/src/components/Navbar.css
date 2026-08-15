@@ -25,11 +25,12 @@
 }
 
 .navbar-link {
-  color: var(--text);
-  font-weight: bold;
+  /* inline-block so the vertical padding below actually contributes to the
+     link's box, which it does not on a plain inline element. */
+  display: inline-block;
   color: white;
-  text-decoration: none;
   font-weight: 500;
+  text-decoration: none;
   padding: 0.35rem 0.6rem;
   border-radius: var(--radius);
 }

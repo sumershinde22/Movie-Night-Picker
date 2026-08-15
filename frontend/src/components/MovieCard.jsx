@@ -45,7 +45,12 @@ function MovieCard({
               onClick={onDelete}
               ref={confirmRef}
             >
+              {/* The watchlist renders one of these per card, so without the
+                  title every Confirm/Cancel button has an identical accessible
+                  name and a screen reader user cannot tell which film they are
+                  about to delete. The visible label stays short. */}
               Confirm Delete
+              <span className="visually-hidden"> of {movie.title}</span>
             </button>
             <button
               type="button"
@@ -53,6 +58,7 @@ function MovieCard({
               onClick={() => setConfirming(false)}
             >
               Cancel Delete
+              <span className="visually-hidden"> of {movie.title}</span>
             </button>
           </>
         ) : (

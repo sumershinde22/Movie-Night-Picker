@@ -110,24 +110,28 @@ button.secondary {
   color: var(--text);
 }
 
+/* These four fills are all mid-tone, so they need the dark ink rather than
+   --text. Light text on them lands at 2.2-2.7:1, well under the 4.5:1 WCAG AA
+   floor for body-sized labels, and axe flags every button on the page. With
+   --on-fill they clear 6:1. Verified with axe against this branch. */
 button.success {
   background: var(--success);
-  color: var(--text);
+  color: var(--on-fill);
 }
 
 button.neutral_cta {
   background: var(--accent-2);
-  color: var(--text);
+  color: var(--on-fill);
 }
 
 button.muted {
   background: var(--muted);
-  color: var(--text);
+  color: var(--on-fill);
 }
 
 button.danger {
   background: var(--danger);
-  color: var(--text);
+  color: var(--on-fill);
 }
 
 input,
