@@ -1,0 +1,70 @@
+.movie-search {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Anchors the results popup to the input. */
+.movie-search-control {
+  position: relative;
+}
+
+.movie-search-results {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  max-height: 17rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+.movie-search-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Highlight follows aria-activedescendant, since focus stays in the input. */
+.movie-search-result.is-active,
+.movie-search-result:hover {
+  background: var(--accent-2);
+  color: var(--on-fill);
+}
+
+.movie-search-result-title {
+  font-weight: 500;
+}
+
+.movie-search-result-year {
+  color: var(--muted);
+  font-size: var(--step--1);
+  white-space: nowrap;
+}
+
+.movie-search-result.is-active .movie-search-result-year,
+.movie-search-result:hover .movie-search-result-year {
+  color: var(--on-fill);
+}
+
+.movie-search-hint {
+  margin: 0.4rem 0 0;
+  max-width: none;
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.movie-search-hint.is-error {
+  color: #ffb4b4;
+}

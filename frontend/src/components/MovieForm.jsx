@@ -2,6 +2,7 @@
 // Controlled inputs via React hooks. Shared mood options keep tags consistent.
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import MovieSearch from './MovieSearch.jsx';
 import './MovieForm.css';
 
 export const MOOD_OPTIONS = [
@@ -52,6 +53,18 @@ function MovieForm({ initialMovie = null, onSave, onCancel = null }) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
+  // Catalog lookup fills only what it can actually know. Platform and mood are
+  // left alone: platform varies by region and subscription, and mood is a
+  // personal judgement, so guessing either would plant wrong data silently.
+  function applyCatalogMovie(movie) {
+    setForm((prev) => ({
+      ...prev,
+      title: movie.title || prev.title,
+      genre: movie.genre || prev.genre,
+      runtime: movie.runtime === '' ? prev.runtime : String(movie.runtime),
+    }));
+  }
+
   function toggleMood(mood) {
     setForm((prev) => ({
       ...prev,
@@ -80,6 +93,10 @@ function MovieForm({ initialMovie = null, onSave, onCancel = null }) {
       <h2>{initialMovie ? 'Edit movie' : 'Add a movie'}</h2>
 
       {error && <div className="error-banner">{error}</div>}
+
+      {/* Only offered when adding. While editing, the fields already hold the
+          user's own values and a lookup would overwrite them. */}
+      {!initialMovie && <MovieSearch onSelect={applyCatalogMovie} />}
 
       <div className="movie-form-grid">
         <div>
