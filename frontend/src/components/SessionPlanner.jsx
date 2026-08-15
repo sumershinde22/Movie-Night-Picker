@@ -1,5 +1,6 @@
 // US-02: Movie Night planner. Lets a host configure a new session (inviting friends and applying a mood filter) and shows their session history — which doubles as the movie-night history log.
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { sessionsApi } from '../api.js';
 import SessionForm from './SessionForm.jsx';
@@ -10,6 +11,7 @@ function SessionPlanner({ user }) {
   const [sessions, setSessions] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const loadSessions = useCallback(async () => {
     setLoading(true);
@@ -28,9 +30,12 @@ function SessionPlanner({ user }) {
     loadSessions();
   }, [loadSessions]);
 
+  // Usability study: a participant submitted this form twice because nothing
+  // confirmed the first one worked. Go straight into the new movie night so the
+  // create step visibly ends somewhere.
   async function handleCreate(payload) {
-    await sessionsApi.create(payload);
-    await loadSessions();
+    const data = await sessionsApi.create(payload);
+    navigate(`/session/${data.session._id}`);
   }
 
   async function handleDelete(id) {
@@ -44,7 +49,7 @@ function SessionPlanner({ user }) {
 
   return (
     <div className="session-planner">
-      <h2>My Movie Nights</h2>
+      <h1>My Movie Nights</h1>
       <p className="session-planner-sub">
         Start a movie night, invite friends by username, and pull candidate
         movies from everyone&apos;s watchlists — optionally narrowed by mood and
@@ -58,7 +63,7 @@ function SessionPlanner({ user }) {
 
       <SessionForm onCreate={handleCreate} />
 
-      <h3 className="session-planner-heading">Your movie night history</h3>
+      <h2 className="session-planner-heading">Your movie night history</h2>
       {loading ? (
         <p>Loading sessions…</p>
       ) : sessions.length === 0 ? (

@@ -8,7 +8,7 @@ weighted random-spin picker breaks the tie.
 
 ## Live Demo
 
-**https://movie-night-picker-ni13.onrender.com**
+**[https://movie-night-picker-ni13.onrender.com](https://final-movie-night-picker.onrender.com)**
 
 Log in with the demo account — **username:** `demo`, **password:** `password`.
 (The free Render tier sleeps when idle, so the first load may take ~30–60s.)
@@ -80,6 +80,12 @@ Edit `backend/.env` and fill in:
 - `MONGO_URI` — your MongoDB connection string
 - `DB_NAME` — e.g. `movie_night`
 - `SESSION_SECRET` — any long random string
+- `TMDB_API_KEY` — optional. Enables the movie search that auto-fills title,
+  genre and runtime when adding to your watchlist. Get a free key at
+  [themoviedb.org](https://www.themoviedb.org/settings/api); either the v3 API
+  key or the v4 Read Access Token works. Without it the app runs normally and
+  the search box explains that lookup is unavailable, so you can still type
+  every field in by hand.
 
 ### 2. Install dependencies
 

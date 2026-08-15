@@ -5,16 +5,24 @@ import './Navbar.css';
 
 function Navbar({ user, onLogout }) {
   return (
-    <nav className="navbar">
-      <span className="navbar-brand">🎬 Movie Night Picker</span>
-      <div className="navbar-links">
-        <NavLink to="/" end className="navbar-link">
-          Add Movies
-        </NavLink>
-        <NavLink to="/sessions" className="navbar-link">
-          Create/Join a Movie Night
-        </NavLink>
-      </div>
+    <nav className="navbar" aria-label="Main">
+      <span className="navbar-brand">
+        <span aria-hidden="true">🎬</span> Movie Night Picker
+      </span>
+      {/* A list, so assistive tech announces how many destinations there are.
+          NavLink sets aria-current="page" on the active one for us. */}
+      <ul className="navbar-links">
+        <li>
+          <NavLink to="/" end className="navbar-link">
+            My Movies
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/sessions" className="navbar-link">
+            My Movie Nights
+          </NavLink>
+        </li>
+      </ul>
       <div className="navbar-user">
         <span className="navbar-username">Hi, {user.displayName}</span>
         <button type="button" className="secondary" onClick={onLogout}>

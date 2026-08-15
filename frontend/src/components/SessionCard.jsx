@@ -11,7 +11,7 @@ function SessionCard({ session, currentUserId, onDelete }) {
     <article className="session-card">
       <header className="session-card-head">
         <div>
-          <h4 className="session-card-title">{session.title}</h4>
+          <h3 className="session-card-title">{session.title}</h3>
           <p className="session-card-meta">
             Hosted by {session.hostName} · {created} ·{' '}
             <span className={`session-status status-${session.status}`}>
@@ -20,14 +20,17 @@ function SessionCard({ session, currentUserId, onDelete }) {
           </p>
         </div>
         <div className="session-card-buttons">
-          <Link to={`/session/${session._id}`}>
-            <button type="button" className="success" onClick={() => {}}>
-              Join
-            </button>
+          {/* A link styled as a button, not a button inside a link. Nesting the
+              two produced an invalid control that took two tab stops. */}
+          <Link
+            to={`/session/${session._id}`}
+            className="button-link button-link-success"
+          >
+            Join<span className="visually-hidden"> {session.title}</span>
           </Link>
           {isHost && (
             <button type="button" className="danger" onClick={onDelete}>
-              Delete
+              Delete<span className="visually-hidden"> {session.title}</span>
             </button>
           )}
         </div>

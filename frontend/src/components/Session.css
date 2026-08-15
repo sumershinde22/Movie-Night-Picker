@@ -1,8 +1,9 @@
 .session {
-  height: 100vh;
+  /* Was a fixed 100vh, which clipped the wheel once it moved into the flow. */
+  min-height: 100vh;
 }
 
-.session h2 {
+.session h1 {
   margin-bottom: 0.25rem;
 }
 
@@ -15,20 +16,21 @@
 .session_content {
   display: flex;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.session_vote_cast {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 50%;
-}
-
+.session_vote_cast,
 .session_vote_tallies {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 50%;
+  flex: 1 1 280px;
+}
+
+.session_vote_tallies_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .movie-card-finished-voting {

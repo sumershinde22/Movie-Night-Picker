@@ -8,8 +8,12 @@
   gap: 0.5rem;
 }
 
+/* Watched cards used to be dimmed with opacity: 0.7, which pulled every child
+   below the WCAG AA contrast floor. Signal the state with a recessed background
+   and an accent edge instead, and leave the text at full strength. */
 .movie-card.is-watched {
-  opacity: 0.7;
+  background: #161b28;
+  border-left: 4px solid var(--accent-2);
 }
 
 .movie-card-head {
@@ -21,14 +25,16 @@
 
 .movie-card-title {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: var(--step-1);
 }
 
 .movie-card-badge {
   background: var(--accent-2);
-  color: white;
-  font-size: 0.7rem;
-  padding: 0.15rem 0.45rem;
+  /* White on this blue is only ~3:1; the dark ink clears 5.9:1. */
+  color: var(--on-fill);
+  font-weight: 600;
+  font-size: var(--step--1);
+  padding: 0.15rem 0.5rem;
   border-radius: 999px;
   white-space: nowrap;
 }
@@ -36,7 +42,8 @@
 .movie-card-meta {
   margin: 0;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: var(--step--1);
+  max-width: none;
 }
 
 .movie-card-moods {

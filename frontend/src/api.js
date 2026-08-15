@@ -50,6 +50,15 @@ export const moviesApi = {
   remove: (id) => request(`/api/movies/${id}`, { method: 'DELETE' }),
 };
 
+// --- Movie catalog lookup (TMDB, proxied by our server) --------------------
+// `signal` lets the type-ahead abort a stale request so a slow earlier response
+// cannot land after a newer one and overwrite the results.
+export const catalogApi = {
+  search: (query, signal) =>
+    request(`/api/catalog/search?q=${encodeURIComponent(query)}`, { signal }),
+  details: (tmdbId) => request(`/api/catalog/movie/${tmdbId}`),
+};
+
 // --- Sessions (US-02, US-03, US-04) ----------------------------------------------------
 export const sessionsApi = {
   list: () => request('/api/sessions'),

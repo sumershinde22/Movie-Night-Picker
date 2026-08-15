@@ -2,12 +2,16 @@ import { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import './SessionWeightedMovieWheel.css';
 
+// Slice fills carry the dark label ink, so they have to stay light enough for
+// it. At the old 55% lightness a blue slice gave only 3.0:1 against the labels,
+// under the 4.5:1 AA floor for the 15.6px they render at; 72% clears 6:1 for
+// every hue. axe cannot measure text on an SVG path, so this is checked by hand.
 const generateRainbowColors = (count) => {
   if (count <= 0) return [];
 
   return Array.from({ length: count }, (_, index) => {
     const hue = (index * 360) / count;
-    return `hsl(${hue}, 50%, 55%)`;
+    return `hsl(${hue}, 60%, 72%)`;
   });
 };
 
@@ -19,6 +23,23 @@ const polarToCartesian = (angle, radius = 100) => {
     y: 100 + radius * Math.sin(radians),
   };
 };
+
+// Usability study: long titles ran across neighbouring slices and off the rim.
+// Labels now sit along the spoke, so each one stays inside its own wedge, and
+// anything still too long to fit is clipped rather than allowed to overflow.
+const MAX_LABEL_CHARS = 16;
+
+const truncateLabel = (title) =>
+  title.length > MAX_LABEL_CHARS
+    ? `${title.slice(0, MAX_LABEL_CHARS - 1).trimEnd()}…`
+    : title;
+
+// Labels sit on the spoke and read outward. On the left half of the wheel that
+// would leave them upside down, so flip those and grow them from the rim inward.
+const labelLayout = (middleAngle) =>
+  middleAngle > 180
+    ? { rotation: middleAngle + 90, textAnchor: 'start' }
+    : { rotation: middleAngle - 90, textAnchor: 'end' };
 
 const createSlicePath = (startAngle, endAngle) => {
   const start = polarToCartesian(startAngle);
@@ -143,10 +164,15 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
           className="weighted-wheel"
           viewBox="0 0 200 200"
           xmlns="http://www.w3.org/2000/svg"
-          aria-label="Weighted movie selection wheel"
+          role="img"
+          aria-label={`Weighted picker wheel with ${slices.length} movies. Each slice is sized by the votes that movie received.`}
         >
           {slices.map((slice) => {
-            const labelPosition = polarToCartesian(slice.middleAngle, 60);
+            // Anchor at the rim and grow inward, along the slice's own spoke.
+            const labelPosition = polarToCartesian(slice.middleAngle, 90);
+            const { rotation: labelRotation, textAnchor } = labelLayout(
+              slice.middleAngle
+            );
 
             return (
               <g key={slice.movieId}>
@@ -161,13 +187,14 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
                   <text
                     x={labelPosition.x}
                     y={labelPosition.y}
+                    textAnchor={textAnchor}
                     transform={`rotate(
-                      ${slice.middleAngle}
+                      ${labelRotation}
                       ${labelPosition.x}
                       ${labelPosition.y}
                     )`}
                   >
-                    {slice.title}
+                    {truncateLabel(slice.title)}
                   </text>
                 )}
               </g>
@@ -187,10 +214,17 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
         {isSpinning ? 'Spinning…' : 'SPIN!'}
       </button>
 
+      {/* The result is conveyed visually by the wheel stopping, so mirror it in
+          a live region for anyone who cannot see the animation. */}
+      <p role="status" className="weighted-wheel-winner-live">
+        {wheelWinner ? `${wheelWinner.title} wins!` : ''}
+      </p>
+
       {wheelWinner && (
         <div
           className="weighted-wheel-winner"
           style={{ color: wheelWinner.color }}
+          aria-hidden="true"
         >
           {wheelWinner.title} wins!
         </div>

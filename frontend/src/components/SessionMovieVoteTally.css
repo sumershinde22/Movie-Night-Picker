@@ -1,4 +1,17 @@
 .session_movie_vote_tally {
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.session_movie_vote_tally:last-child {
+  border-bottom: none;
+}
+
+.session_movie_vote_tally--num_votes {
+  color: var(--muted);
+  font-size: var(--step--1);
+  white-space: nowrap;
 }

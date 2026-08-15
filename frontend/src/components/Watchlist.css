@@ -8,6 +8,50 @@
   margin-bottom: 1.25rem;
 }
 
+/* Signposts the watchlist → movie night hand-off that participants missed. */
+.watchlist-next-step {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.watchlist-next-step:hover {
+  background: var(--surface-2);
+}
+
+.watchlist-next-step-cta {
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.watchlist-undo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.watchlist-undo-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .watchlist-empty {
   color: var(--muted);
   text-align: center;

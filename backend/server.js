@@ -13,6 +13,7 @@ import { configurePassport } from './config/passport.js';
 import authRouter from './routes/auth.js';
 import moviesRouter from './routes/movies.js';
 import sessionsRouter from './routes/sessions.js';
+import catalogRouter from './routes/catalog.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,6 +58,7 @@ async function start() {
   app.use('/api/auth', authRouter);
   app.use('/api/movies', moviesRouter);
   app.use('/api/sessions', sessionsRouter);
+  app.use('/api/catalog', catalogRouter);
 
   // Simple health check for the hosting platform.
   app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
@@ -70,10 +72,15 @@ async function start() {
     res.sendFile(path.join(clientDir, 'index.html'));
   });
 
-  // Centralized error handler.
+  // Centralized error handler. Routes may attach err.status and a message that
+  // is safe to show the user (for example the movie search being unconfigured
+  // or upstream being down); anything without one stays a generic 500.
   // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, _next) => {
     console.error(err);
+    if (err.status) {
+      return res.status(err.status).json({ error: err.message });
+    }
     res.status(500).json({ error: 'Something went wrong on the server.' });
   });
 
