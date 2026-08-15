@@ -12,8 +12,22 @@ function SessionForm({ onCreate }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
+  function generateHandleSubmitConfirmModalText() {
+    return [
+      `Confirm creation of movie night: ${title || 'Movie Night'}`,
+      `The following friends (usernames) will be invited: ${invited || '(no additional friends invited)'}`,
+      `Only movies with these moods will be added: ${moodFilter || '(no mood filter)'}`,
+      `Only movies with this max runtime will be added: ${maxRuntime ? `${maxRuntime}min` : '(no max runtime filter)'}`,
+      `Otherwise, all non-watched movies of you and your friends will be added to the movie night.`,
+    ].join('\n\n');
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
+    if (!window.confirm(generateHandleSubmitConfirmModalText())) {
+      return;
+    }
+
     setError('');
     setBusy(true);
     try {
