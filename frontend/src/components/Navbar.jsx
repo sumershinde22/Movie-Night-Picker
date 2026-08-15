@@ -9,10 +9,10 @@ function Navbar({ user, onLogout }) {
       <span className="navbar-brand">🎬 Movie Night Picker</span>
       <div className="navbar-links">
         <NavLink to="/" end className="navbar-link">
-          My Watchlist
+          Add Movies
         </NavLink>
         <NavLink to="/sessions" className="navbar-link">
-          Movie Nights
+          Create/Join a Movie Night
         </NavLink>
       </div>
       <div className="navbar-user">

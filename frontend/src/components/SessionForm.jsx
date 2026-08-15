@@ -61,7 +61,7 @@ function SessionForm({ onCreate }) {
 
       <div className="session-form-grid">
         <div>
-          <label htmlFor="session-title">Session name</label>
+          <label htmlFor="session-title">Movie night name</label>
           <input
             id="session-title"
             placeholder="Friday Horror Night"
@@ -94,7 +94,7 @@ function SessionForm({ onCreate }) {
           </select>
         </div>
         <div>
-          <label htmlFor="session-runtime">Max runtime (min, optional)</label>
+          <label htmlFor="session-runtime">Max runtime (min)</label>
           <input
             id="session-runtime"
             type="number"

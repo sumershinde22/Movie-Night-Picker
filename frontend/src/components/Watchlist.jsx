@@ -52,8 +52,12 @@ function Watchlist() {
     <div className="watchlist">
       <h2>My Watchlist</h2>
       <p className="watchlist-sub">
-        Add movies you want to watch, tag them with a mood, and mark them
-        watched. These become the candidate pool for your movie nights.
+        Add movies you want to watch, and tag them with a mood. These become the
+        candidate pool for your movie nights.
+      </p>
+      <p className="watchlist-sub">
+        Note: Movies marked as <u>☑️ already watched</u> will not appear in
+        movie nights!
       </p>
 
       {error && <div className="error-banner">{error}</div>}

@@ -19,15 +19,17 @@
 }
 
 .navbar-link {
-  color: var(--muted);
+  color: var(--text);
+  font-weight: bold;
+  color: white;
   text-decoration: none;
   padding: 0.35rem 0.6rem;
   border-radius: var(--radius);
 }
 
 .navbar-link.active {
-  color: var(--text);
   background: var(--surface-2);
+  text-decoration: underline;
 }
 
 .navbar-user {
@@ -37,6 +39,5 @@
 }
 
 .navbar-username {
-  color: var(--muted);
   font-size: 0.9rem;
 }
