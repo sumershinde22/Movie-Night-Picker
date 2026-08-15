@@ -59,10 +59,15 @@ function SessionForm({ onCreate }) {
           <label htmlFor="session-invited">Invite friends (usernames)</label>
           <input
             id="session-invited"
-            placeholder="alice, bob"
+            /* Usability study: a participant typed the old "alice, bob"
+               placeholder in as a real username. Mark it as an example. */
+            placeholder="e.g. alice, bob"
             value={invited}
             onChange={(e) => setInvited(e.target.value)}
           />
+          <p className="session-form-hint">
+            Type your friends&apos; usernames, separated by commas.
+          </p>
         </div>
         <div>
           <label htmlFor="session-mood">Mood filter</label>

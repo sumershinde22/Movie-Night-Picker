@@ -20,6 +20,23 @@ const polarToCartesian = (angle, radius = 100) => {
   };
 };
 
+// Usability study: long titles ran across neighbouring slices and off the rim.
+// Labels now sit along the spoke, so each one stays inside its own wedge, and
+// anything still too long to fit is clipped rather than allowed to overflow.
+const MAX_LABEL_CHARS = 16;
+
+const truncateLabel = (title) =>
+  title.length > MAX_LABEL_CHARS
+    ? `${title.slice(0, MAX_LABEL_CHARS - 1).trimEnd()}…`
+    : title;
+
+// Labels sit on the spoke and read outward. On the left half of the wheel that
+// would leave them upside down, so flip those and grow them from the rim inward.
+const labelLayout = (middleAngle) =>
+  middleAngle > 180
+    ? { rotation: middleAngle + 90, textAnchor: 'start' }
+    : { rotation: middleAngle - 90, textAnchor: 'end' };
+
 const createSlicePath = (startAngle, endAngle) => {
   const start = polarToCartesian(startAngle);
   const end = polarToCartesian(endAngle);
@@ -146,7 +163,11 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
           aria-label="Weighted movie selection wheel"
         >
           {slices.map((slice) => {
-            const labelPosition = polarToCartesian(slice.middleAngle, 60);
+            // Anchor at the rim and grow inward, along the slice's own spoke.
+            const labelPosition = polarToCartesian(slice.middleAngle, 90);
+            const { rotation: labelRotation, textAnchor } = labelLayout(
+              slice.middleAngle
+            );
 
             return (
               <g key={slice.movieId}>
@@ -161,13 +182,14 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
                   <text
                     x={labelPosition.x}
                     y={labelPosition.y}
+                    textAnchor={textAnchor}
                     transform={`rotate(
-                      ${slice.middleAngle}
+                      ${labelRotation}
                       ${labelPosition.x}
                       ${labelPosition.y}
                     )`}
                   >
-                    {slice.title}
+                    {truncateLabel(slice.title)}
                   </text>
                 )}
               </g>

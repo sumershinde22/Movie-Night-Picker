@@ -23,9 +23,8 @@
 
 .weighted-wheel text {
   fill: #10131a;
-  font-size: 7px;
+  font-size: 6px;
   font-weight: 700;
-  text-anchor: middle;
   dominant-baseline: middle;
   pointer-events: none;
 }
@@ -126,7 +125,7 @@
   }
 
   .weighted-wheel text {
-    font-size: 5px;
+    font-size: 4.5px;
   }
 
   .weighted-wheel-winner {
