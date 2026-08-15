@@ -1,5 +1,5 @@
 // Displays a single watchlist movie with edit and delete actions.
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './MovieCard.css';
 import { MOVIE_CARD_TYPE } from '../enums';
@@ -15,17 +15,41 @@ function MovieCard({
   type = MOVIE_CARD_TYPE.MOVIE_CARD_EDIT,
 }) {
   const [confirming, setConfirming] = useState(false);
+  const confirmRef = useRef(null);
+  const deleteRef = useRef(null);
+
+  // Delete is replaced by Confirm/Cancel in place. Without this, the element
+  // holding focus unmounts and focus falls back to <body>, stranding keyboard
+  // users. Move focus onto the control that replaced it, and back on cancel.
+  const wasConfirming = useRef(false);
+  useEffect(() => {
+    if (confirming && !wasConfirming.current) {
+      confirmRef.current?.focus();
+    } else if (!confirming && wasConfirming.current) {
+      deleteRef.current?.focus();
+    }
+    wasConfirming.current = confirming;
+  }, [confirming]);
 
   const movieCardEditActions =
     type === MOVIE_CARD_TYPE.MOVIE_CARD_EDIT ? (
       <div className="movie-card-actions">
         <button type="button" className="secondary" onClick={onEdit}>
-          Edit
+          Edit<span className="visually-hidden"> {movie.title}</span>
         </button>
         {confirming ? (
           <>
-            <button type="button" className="danger" onClick={onDelete}>
+            <button
+              type="button"
+              className="danger"
+              onClick={onDelete}
+              ref={confirmRef}
+            >
               Confirm
+              <span className="visually-hidden">
+                {' '}
+                deletion of {movie.title}
+              </span>
             </button>
             <button
               type="button"
@@ -40,8 +64,9 @@ function MovieCard({
             type="button"
             className="danger"
             onClick={() => setConfirming(true)}
+            ref={deleteRef}
           >
-            Delete
+            Delete<span className="visually-hidden"> {movie.title}</span>
           </button>
         )}
       </div>
@@ -51,10 +76,12 @@ function MovieCard({
     type === MOVIE_CARD_TYPE.MOVIE_CARD_VOTE ? (
       <div className="movie-card-actions">
         <button type="button" className="danger" onClick={onVoteNo}>
-          Skip ❌
+          Skip<span className="visually-hidden"> {movie.title}</span>
+          <span aria-hidden="true"> ❌</span>
         </button>
         <button type="button" className="success" onClick={onVoteYes}>
-          Watch ✅
+          Watch<span className="visually-hidden"> {movie.title}</span>
+          <span aria-hidden="true"> ✅</span>
         </button>
       </div>
     ) : null;
@@ -86,8 +113,11 @@ function MovieCard({
 }
 
 MovieCard.propTypes = {
+  // Watchlist entries arrive with _id; session candidates are snapshots keyed
+  // by movieId. This component renders neither, so neither is required.
   movie: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string,
+    movieId: PropTypes.string,
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     runtime: PropTypes.number.isRequired,

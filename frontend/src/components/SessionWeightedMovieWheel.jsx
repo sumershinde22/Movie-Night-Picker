@@ -2,12 +2,16 @@ import { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import './SessionWeightedMovieWheel.css';
 
+// Slice fills carry the dark label ink, so they have to stay light enough for
+// it. At the old 55% lightness a blue slice gave only 3.0:1 against the labels,
+// under the 4.5:1 AA floor for the 15.6px they render at; 72% clears 6:1 for
+// every hue. axe cannot measure text on an SVG path, so this is checked by hand.
 const generateRainbowColors = (count) => {
   if (count <= 0) return [];
 
   return Array.from({ length: count }, (_, index) => {
     const hue = (index * 360) / count;
-    return `hsl(${hue}, 50%, 55%)`;
+    return `hsl(${hue}, 60%, 72%)`;
   });
 };
 
@@ -160,7 +164,8 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
           className="weighted-wheel"
           viewBox="0 0 200 200"
           xmlns="http://www.w3.org/2000/svg"
-          aria-label="Weighted movie selection wheel"
+          role="img"
+          aria-label={`Weighted picker wheel with ${slices.length} movies. Each slice is sized by the votes that movie received.`}
         >
           {slices.map((slice) => {
             // Anchor at the rim and grow inward, along the slice's own spoke.
@@ -209,10 +214,17 @@ function SessionWeightedMovieWheel({ movies, onWinnerSelected }) {
         {isSpinning ? 'Spinning…' : 'SPIN!'}
       </button>
 
+      {/* The result is conveyed visually by the wheel stopping, so mirror it in
+          a live region for anyone who cannot see the animation. */}
+      <p role="status" className="weighted-wheel-winner-live">
+        {wheelWinner ? `${wheelWinner.title} wins!` : ''}
+      </p>
+
       {wheelWinner && (
         <div
           className="weighted-wheel-winner"
           style={{ color: wheelWinner.color }}
+          aria-hidden="true"
         >
           {wheelWinner.title} wins!
         </div>

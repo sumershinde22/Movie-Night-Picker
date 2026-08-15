@@ -74,7 +74,7 @@ function Watchlist() {
 
   return (
     <div className="watchlist">
-      <h2>My Watchlist</h2>
+      <h1>My Watchlist</h1>
       <p className="watchlist-sub">
         Add movies you want to watch, tag them with a mood, and mark them
         watched. These become the candidate pool for your movie nights.
@@ -98,7 +98,11 @@ function Watchlist() {
             Removed <strong>{lastDeleted.title}</strong> from your watchlist.
           </span>
           <div className="watchlist-undo-actions">
-            <button type="button" className="secondary" onClick={handleUndoDelete}>
+            <button
+              type="button"
+              className="secondary"
+              onClick={handleUndoDelete}
+            >
               Undo
             </button>
             <button

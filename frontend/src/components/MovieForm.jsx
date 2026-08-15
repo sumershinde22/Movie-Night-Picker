@@ -77,7 +77,7 @@ function MovieForm({ initialMovie = null, onSave, onCancel = null }) {
 
   return (
     <form className="movie-form" onSubmit={handleSubmit}>
-      <h3>{initialMovie ? 'Edit movie' : 'Add a movie'}</h3>
+      <h2>{initialMovie ? 'Edit movie' : 'Add a movie'}</h2>
 
       {error && <div className="error-banner">{error}</div>}
 
@@ -130,7 +130,7 @@ function MovieForm({ initialMovie = null, onSave, onCancel = null }) {
       <fieldset className="movie-form-moods">
         {/* Usability study: a participant read these as genres and asked for
             "drama" to be added, so spell out what a mood tag is for. */}
-        <legend>Mood tags — how you want to feel, not the genre</legend>
+        <legend>Mood tags: how you want to feel, not the genre</legend>
         {MOOD_OPTIONS.map((mood) => (
           <label key={mood} className="mood-check">
             <input

@@ -28,30 +28,48 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div className="page">Loading…</div>;
+    return (
+      <main className="page">
+        <p role="status">Loading…</p>
+      </main>
+    );
   }
 
   // Unauthenticated users only see the login / register screen.
   if (!user) {
     return (
-      <div className="page">
-        <h1 className="app-title">🎬 Movie Night Picker</h1>
+      <main className="page">
+        <h1 className="app-title">
+          <span aria-hidden="true">🎬</span> Movie Night Picker
+        </h1>
         <AuthForm onAuthed={setUser} />
-      </div>
+      </main>
     );
   }
 
+  // header > nav, then main, then footer: landmarks in document order so that
+  // screen readers and sequential keyboard traversal follow the visual order.
   return (
     <>
-      <Navbar user={user} onLogout={handleLogout} />
-      <div className="page">
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
+      <header>
+        <Navbar user={user} onLogout={handleLogout} />
+      </header>
+      <main className="page" id="main-content">
         <Routes>
           <Route path="/" element={<Watchlist />} />
           <Route path="/sessions" element={<SessionPlanner user={user} />} />
           <Route path="/session/:id" element={<Session user={user} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </div>
+      </main>
+      <footer className="app-footer">
+        <p>
+          Movie Night Picker · CS5610 Web Development · Northeastern University
+        </p>
+      </footer>
     </>
   );
 }

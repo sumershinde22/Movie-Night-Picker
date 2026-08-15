@@ -49,7 +49,7 @@ function SessionPlanner({ user }) {
 
   return (
     <div className="session-planner">
-      <h2>Movie Nights</h2>
+      <h1>Movie Nights</h1>
       <p className="session-planner-sub">
         Start a movie night, invite friends by username, and pull candidate
         movies from everyone&apos;s watchlists — optionally narrowed by mood.
@@ -59,7 +59,7 @@ function SessionPlanner({ user }) {
 
       <SessionForm onCreate={handleCreate} />
 
-      <h3 className="session-planner-heading">Your movie night history</h3>
+      <h2 className="session-planner-heading">Your movie night history</h2>
       {loading ? (
         <p>Loading sessions…</p>
       ) : sessions.length === 0 ? (

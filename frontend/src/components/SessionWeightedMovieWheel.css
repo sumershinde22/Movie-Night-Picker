@@ -1,8 +1,10 @@
+/* Sits in the document flow. This was absolutely positioned with no positioned
+   ancestor, so it anchored to the viewport and covered the page content behind
+   it, which also made every element underneath unmeasurable for contrast.
+   It stays `relative` so the pointer, rim, hub and winner still anchor to it. */
 .weighted-wheel-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  margin: 2rem auto 4rem;
   width: min(520px, 85vw);
   aspect-ratio: 1;
 }
@@ -94,6 +96,19 @@
   font-weight: 800;
   text-align: center;
   animation: weighted-wheel-flash 0.8s linear 2;
+}
+
+/* Announced, not shown: the coloured winner text below carries the visual job. */
+.weighted-wheel-winner-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .weighted-wheel-empty {

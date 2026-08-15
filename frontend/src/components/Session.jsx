@@ -101,15 +101,19 @@ function Session({ user }) {
       {error && <div className="error-banner">{error}</div>}
 
       {loading ? (
-        <p>Loading session…</p>
+        <p role="status">Loading session…</p>
       ) : (
         <>
-          <h2>{session.hostName}'s Movie Night</h2>
+          <h1>{session.hostName}&apos;s Movie Night</h1>
           <p className="session-sub">
             Vote for the movies you want to see! (tallies will update every 5s)
           </p>
-          <article className="session_content">
-            <div className="session_vote_cast">
+          <div className="session_content">
+            <section
+              className="session_vote_cast"
+              aria-labelledby="vote-heading"
+            >
+              <h2 id="vote-heading">Your vote</h2>
               {activeMovie ? (
                 <MovieCard
                   movie={activeMovie}
@@ -119,25 +123,34 @@ function Session({ user }) {
                 />
               ) : (
                 <div className="movie-card-finished-voting movie-card">
-                  <div>You have finished voting!</div>
+                  <p>You have finished voting!</p>
                 </div>
               )}
-            </div>
-            <div className="session_vote_tallies">
-              {session.candidates.map((candidate) => (
-                <SessionMovieVoteTally
-                  key={candidate.movieId}
-                  movieName={candidate.title}
-                  numVotes={
-                    Object.values(
-                      session.votes?.[candidate.movieId] ?? {}
-                    ).filter(Boolean).length
-                  }
-                />
-              ))}
-            </div>
-          </article>
-          <article className="session_summary">
+            </section>
+            {/* Polled every 5s, so announce changes rather than leaving keyboard
+                and screen reader users to re-read the region manually. */}
+            <section
+              className="session_vote_tallies"
+              aria-labelledby="tallies-heading"
+              aria-live="polite"
+            >
+              <h2 id="tallies-heading">Live vote tallies</h2>
+              <ul className="session_vote_tallies_list">
+                {session.candidates.map((candidate) => (
+                  <SessionMovieVoteTally
+                    key={candidate.movieId}
+                    movieName={candidate.title}
+                    numVotes={
+                      Object.values(
+                        session.votes?.[candidate.movieId] ?? {}
+                      ).filter(Boolean).length
+                    }
+                  />
+                ))}
+              </ul>
+            </section>
+          </div>
+          <section className="session_summary" aria-live="polite">
             {session.winningPick ? (
               <>
                 <p className="session_final_choice">
@@ -184,9 +197,12 @@ function Session({ user }) {
                 )}
               </>
             ) : (
-              `Voting in progress! Number of votes cast: (${numVotesCast}/${numMaxVotes})`
+              <p>
+                Voting in progress! Number of votes cast: ({numVotesCast}/
+                {numMaxVotes})
+              </p>
             )}
-          </article>
+          </section>
         </>
       )}
     </section>

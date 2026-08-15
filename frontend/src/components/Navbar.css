@@ -9,25 +9,42 @@
 }
 
 .navbar-brand {
+  font-family: var(--font-display);
   font-weight: 700;
+  font-size: var(--step-1);
+  letter-spacing: -0.015em;
 }
 
 .navbar-links {
   display: flex;
   gap: 1rem;
   flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar-link {
+  display: inline-block;
   color: var(--muted);
   text-decoration: none;
+  font-weight: 500;
   padding: 0.35rem 0.6rem;
   border-radius: var(--radius);
+}
+
+/* Underline on hover/focus so the active state is not carried by colour alone. */
+.navbar-link:hover,
+.navbar-link:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
 }
 
 .navbar-link.active {
   color: var(--text);
   background: var(--surface-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .navbar-user {
@@ -38,5 +55,5 @@
 
 .navbar-username {
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: var(--step--1);
 }

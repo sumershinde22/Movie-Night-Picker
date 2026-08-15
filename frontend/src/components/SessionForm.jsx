@@ -41,7 +41,7 @@ function SessionForm({ onCreate }) {
 
   return (
     <form className="session-form" onSubmit={handleSubmit}>
-      <h3>Start a movie night</h3>
+      <h2>Start a movie night</h2>
 
       {error && <div className="error-banner">{error}</div>}
 

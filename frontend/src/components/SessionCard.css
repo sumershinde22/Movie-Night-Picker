@@ -75,3 +75,28 @@
   display: flex;
   gap: 0.5rem;
 }
+
+/* Links that need to read as buttons. Kept as <a> so Enter activates them and
+   they stay a single tab stop. */
+.button-link {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  font-weight: 600;
+  line-height: 1.6;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: filter 0.15s ease;
+}
+
+.button-link:hover {
+  filter: brightness(1.1);
+  text-decoration: none;
+}
+
+.button-link-success {
+  background: var(--success);
+  color: var(--on-fill);
+}
