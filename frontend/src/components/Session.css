@@ -67,3 +67,7 @@
   color: var(--success, #3fae73);
   font-weight: 700;
 }
+
+.session_voting_in_progress_text {
+  margin-bottom: 0.5rem;
+}

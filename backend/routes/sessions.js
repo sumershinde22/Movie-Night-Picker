@@ -315,4 +315,84 @@ router.patch('/:id/winner', async (req, res, next) => {
   }
 });
 
+// UPDATE (end early): PATCH /api/sessions/:id/end
+// Only the host may prematurely end the session.
+// Prematurely ending the session will pick a winner, then mark the movie night as completed.
+// Tie breaker behavior is the same as if the movie night ended the normal way thru voting.
+router.patch('/:id/end', async (req, res, next) => {
+  try {
+    const sessionId = req.params.id;
+    if (!ObjectId.isValid(sessionId)) {
+      return res.status(400).json({ error: 'Invalid session id.' });
+    }
+    const sessionObjectId = new ObjectId(sessionId);
+    const hostId = new ObjectId(req.user._id);
+    const session = await sessionsCollection().findOne({
+      _id: sessionObjectId,
+      hostId,
+    });
+    if (!session) {
+      return res.status(404).json({
+        error: 'Session not found or you are not the host.',
+      });
+    }
+    if (session.status !== 'open') {
+      return res.status(400).json({
+        error: 'Session is already closed.',
+      });
+    }
+    if (!session.candidates?.length) {
+      return res.status(400).json({
+        error: 'Session has no candidate movies.',
+      });
+    }
+    let winningMovieId = null;
+    let highestYesCount = -1;
+    for (const [candidateMovieId, movieVotes] of Object.entries(
+      session.votes ?? {}
+    )) {
+      const yesCount = Object.values(movieVotes).filter(
+        (vote) => vote === true
+      ).length;
+
+      if (yesCount > highestYesCount) {
+        highestYesCount = yesCount;
+        winningMovieId = candidateMovieId;
+      }
+    }
+    const winningMovie = session.candidates.find(
+      (candidate) => candidate.movieId.toString() === winningMovieId
+    );
+    if (!winningMovie) {
+      return res.status(500).json({
+        error: 'Winning movie not found in candidate list.',
+      });
+    }
+    const updatedSession = await sessionsCollection().findOneAndUpdate(
+      {
+        _id: sessionObjectId,
+        hostId,
+        status: 'open',
+      },
+      {
+        $set: {
+          winningPick: winningMovie,
+          status: 'closed',
+        },
+      },
+      {
+        returnDocument: 'after',
+      }
+    );
+    if (!updatedSession) {
+      return res.status(409).json({
+        error: 'Session was already closed.',
+      });
+    }
+    res.json({ session: updatedSession });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;

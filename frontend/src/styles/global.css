@@ -61,6 +61,11 @@ button.success {
   color: var(--text);
 }
 
+button.muted {
+  background: var(--muted);
+  color: var(--text);
+}
+
 button.danger {
   background: var(--danger);
 }

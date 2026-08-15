@@ -67,4 +67,8 @@ export const sessionsApi = {
       method: 'PATCH',
       body: JSON.stringify({ movieId }),
     }),
+  endSessionPrematurely: (sessionId) =>
+    request(`/api/sessions/${sessionId}/end`, {
+      method: 'PATCH',
+    }),
 };
