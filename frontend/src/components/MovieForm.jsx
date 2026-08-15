@@ -151,7 +151,7 @@ function MovieForm({ initialMovie = null, onSave, onCancel = null }) {
       </label>
 
       <div className="movie-form-actions">
-        <button type="submit" disabled={busy}>
+        <button type="submit" className="success" disabled={busy}>
           {busy
             ? 'Saving…'
             : initialMovie

@@ -106,7 +106,7 @@ function SessionForm({ onCreate }) {
         </div>
       </div>
 
-      <button type="submit" disabled={busy}>
+      <button type="submit" className="success" disabled={busy}>
         {busy ? 'Creating…' : 'Create movie night'}
       </button>
     </form>

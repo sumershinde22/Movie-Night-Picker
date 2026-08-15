@@ -19,20 +19,20 @@ function MovieCard({
   const movieCardEditActions =
     type === MOVIE_CARD_TYPE.MOVIE_CARD_EDIT ? (
       <div className="movie-card-actions">
-        <button type="button" className="secondary" onClick={onEdit}>
+        <button type="button" className="neutral_cta" onClick={onEdit}>
           Edit
         </button>
         {confirming ? (
           <>
             <button type="button" className="danger" onClick={onDelete}>
-              Confirm
+              Confirm Delete
             </button>
             <button
               type="button"
               className="secondary"
               onClick={() => setConfirming(false)}
             >
-              Cancel
+              Cancel Delete
             </button>
           </>
         ) : (

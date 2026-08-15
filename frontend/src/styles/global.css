@@ -61,6 +61,11 @@ button.success {
   color: var(--text);
 }
 
+button.neutral_cta {
+  background: var(--accent-2);
+  color: var(--text);
+}
+
 button.muted {
   background: var(--muted);
   color: var(--text);
