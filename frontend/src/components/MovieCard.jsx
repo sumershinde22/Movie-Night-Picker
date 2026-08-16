@@ -34,7 +34,7 @@ function MovieCard({
   const movieCardEditActions =
     type === MOVIE_CARD_TYPE.MOVIE_CARD_EDIT ? (
       <div className="movie-card-actions">
-        <button type="button" className="secondary" onClick={onEdit}>
+        <button type="button" className="neutral_cta" onClick={onEdit}>
           Edit<span className="visually-hidden"> {movie.title}</span>
         </button>
         {confirming ? (
@@ -45,18 +45,20 @@ function MovieCard({
               onClick={onDelete}
               ref={confirmRef}
             >
-              Confirm
-              <span className="visually-hidden">
-                {' '}
-                deletion of {movie.title}
-              </span>
+              {/* The watchlist renders one of these per card, so without the
+                  title every Confirm/Cancel button has an identical accessible
+                  name and a screen reader user cannot tell which film they are
+                  about to delete. The visible label stays short. */}
+              Confirm Delete
+              <span className="visually-hidden"> of {movie.title}</span>
             </button>
             <button
               type="button"
               className="secondary"
               onClick={() => setConfirming(false)}
             >
-              Cancel
+              Cancel Delete
+              <span className="visually-hidden"> of {movie.title}</span>
             </button>
           </>
         ) : (
@@ -116,8 +118,6 @@ MovieCard.propTypes = {
   // Watchlist entries arrive with _id; session candidates are snapshots keyed
   // by movieId. This component renders neither, so neither is required.
   movie: PropTypes.shape({
-    _id: PropTypes.string,
-    movieId: PropTypes.string,
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     runtime: PropTypes.number.isRequired,

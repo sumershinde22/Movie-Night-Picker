@@ -14,12 +14,12 @@ function Navbar({ user, onLogout }) {
       <ul className="navbar-links">
         <li>
           <NavLink to="/" end className="navbar-link">
-            My Watchlist
+            My Movies
           </NavLink>
         </li>
         <li>
           <NavLink to="/sessions" className="navbar-link">
-            Movie Nights
+            My Movie Nights
           </NavLink>
         </li>
       </ul>

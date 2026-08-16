@@ -139,7 +139,9 @@ function MovieSearch({ onSelect }) {
 
   return (
     <div className="movie-search">
-      <label htmlFor={`${listboxId}-input`}>Search for a movie</label>
+      <label htmlFor={`${listboxId}-input`}>
+        Search for a movie (optional), or manually input a movie below.
+      </label>
       <div className="movie-search-control">
         <input
           id={`${listboxId}-input`}
@@ -153,7 +155,7 @@ function MovieSearch({ onSelect }) {
           }
           aria-describedby={`${listboxId}-hint`}
           autoComplete="off"
-          placeholder="e.g. Everything Everywhere All at Once"
+          placeholder="(optional search field) e.g. Everything Everywhere All at Once"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}

@@ -96,6 +96,39 @@ function Session({ user }) {
     }
   };
 
+  const handleEndMovieNightPrematurely = async () => {
+    if (
+      !window.confirm(
+        'Are you sure you want to end the movie night now? A winner will be decided from the votes cast so far.'
+      )
+    ) {
+      return;
+    }
+    try {
+      const data = await sessionsApi.endSessionPrematurely(id);
+      setSession(data.session);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const votingInProgressComponent = (
+    <div>
+      <div className="session_voting_in_progress_text">
+        Voting in progress! Number of votes cast: ({numVotesCast}/{numMaxVotes})
+      </div>
+      {isHost && !winnerDecisionFinished && (
+        <button
+          type="button"
+          className="muted"
+          onClick={handleEndMovieNightPrematurely}
+        >
+          (Host only) End movie night now ⏩
+        </button>
+      )}
+    </div>
+  );
+
   return (
     <section className="session">
       {error && <div className="error-banner">{error}</div>}
@@ -197,10 +230,7 @@ function Session({ user }) {
                 )}
               </>
             ) : (
-              <p>
-                Voting in progress! Number of votes cast: ({numVotesCast}/
-                {numMaxVotes})
-              </p>
+              votingInProgressComponent
             )}
           </section>
         </>

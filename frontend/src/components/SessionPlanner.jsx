@@ -49,10 +49,14 @@ function SessionPlanner({ user }) {
 
   return (
     <div className="session-planner">
-      <h1>Movie Nights</h1>
+      <h1>My Movie Nights</h1>
       <p className="session-planner-sub">
         Start a movie night, invite friends by username, and pull candidate
-        movies from everyone&apos;s watchlists — optionally narrowed by mood.
+        movies from everyone&apos;s watchlists — optionally narrowed by mood and
+        runtime.
+      </p>
+      <p className="session-planner-sub">
+        All fields and filters below are <u>optional</u>.
       </p>
 
       {error && <div className="error-banner">{error}</div>}
