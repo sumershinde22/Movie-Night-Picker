@@ -11,6 +11,8 @@
 /* Watched cards used to be dimmed with opacity: 0.7, which pulled every child
    below the WCAG AA contrast floor. Signal the state with a recessed background
    and an accent edge instead, and leave the text at full strength. */
+
+/** The "Watched" badge and the "Edit" button use the same colour, which makes a status label look like it could be another action. Worth giving the badge its own distinct color - maybe same as "add to watchlist". */
 .movie-card.is-watched {
   background: #161b28;
   border-left: 4px solid var(--accent-2);
