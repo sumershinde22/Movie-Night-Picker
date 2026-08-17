@@ -21,6 +21,9 @@ function MovieCard({
   // Delete is replaced by Confirm/Cancel in place. Without this, the element
   // holding focus unmounts and focus falls back to <body>, stranding keyboard
   // users. Move focus onto the control that replaced it, and back on cancel.
+
+  // Delete swapping in-place into "Confirm Delete"/"Cancel Delete" is a bit of an unfamiliar pattern.
+  // It took me a second to register as a first-time user. Might be worth a quick usability check to see if others find it clear.
   const wasConfirming = useRef(false);
   useEffect(() => {
     if (confirming && !wasConfirming.current) {
