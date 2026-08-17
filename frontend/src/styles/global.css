@@ -23,6 +23,7 @@
   --font-body:
     'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
+  /** Great work on the fluid typography scale. i learnt something new! */
   /* Modular scale, ~1.25 ratio, fluid between small and large viewports. */
   --step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
   --step-0: clamp(0.95rem, 0.92rem + 0.18vw, 1.05rem);
