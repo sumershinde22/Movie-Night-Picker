@@ -137,9 +137,13 @@ function Session({ user }) {
         <p role="status">Loading session…</p>
       ) : (
         <>
-          <h1>{session.hostName}&apos;s Movie Night</h1>
+          {/* The name the host typed on the create form, not a name derived
+              from them. The history list already titles each card this way, so
+              arriving here from that list lands on the same words. */}
+          <h1>{session.title}</h1>
           <p className="session-sub">
-            Vote for the movies you want to see! (tallies will update every 5s)
+            Hosted by {session.hostName}. Vote for the movies you want to see!
+            (tallies will update every 5s)
           </p>
           <div className="session_content">
             <section

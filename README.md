@@ -8,7 +8,7 @@ weighted random-spin picker breaks the tie.
 
 ## Live Demo
 
-**[https://movie-night-picker-ni13.onrender.com](https://final-movie-night-picker.onrender.com)**
+**[https://final-movie-night-picker.onrender.com](https://final-movie-night-picker.onrender.com)**
 
 Log in with the demo account — **username:** `demo`, **password:** `password`.
 (The free Render tier sleeps when idle, so the first load may take ~30–60s.)
