@@ -319,6 +319,10 @@ router.patch('/:id/winner', async (req, res, next) => {
 // Only the host may prematurely end the session.
 // Prematurely ending the session will pick a winner, then mark the movie night as completed.
 // Tie breaker behavior is the same as if the movie night ended the normal way thru voting.
+
+// The tie-detection is silent in UI. Both the vote-closing handler and the host's "end early" route pick a winner by looping through candidates and keeping whichever has the highest yes-count so far.
+// If two movies tie, whichever was added to the candidate list first wins, with no indication to anyone that it was a tie. The UI then confidently displays "Voting has finished! The winner: X" as if it were decisive.
+// Atleast, add a lable to say 'tied, broken automatically' so it's not misleading.
 router.patch('/:id/end', async (req, res, next) => {
   try {
     const sessionId = req.params.id;
