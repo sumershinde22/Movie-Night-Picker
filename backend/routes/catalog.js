@@ -6,75 +6,16 @@
 // filing a sci-fi comedy under "horror".
 //
 // The request goes through the server rather than straight from the browser so
-// that TMDB_API_KEY is never shipped to the client. Uses the global fetch built
-// into Node 18+, so there is no HTTP client dependency to add.
+// that TMDB_API_KEY is never shipped to the client.
 import express from 'express';
 import { ensureAuthenticated } from '../config/passport.js';
+import { tmdbFetch, releaseYear } from '../tmdb.js';
 
 const router = express.Router();
-
-const TMDB_BASE = 'https://api.themoviedb.org/3';
-const TMDB_TIMEOUT_MS = 6000;
 
 // Only logged-in users can search, so this cannot be used as an open proxy that
 // burns through the project's TMDB quota.
 router.use(ensureAuthenticated);
-
-// TMDB issues two credential styles: a v3 key used as a query parameter, and a
-// v4 "API Read Access Token" (a JWT) used as a bearer token. Accept either so
-// it works with whichever one the dashboard shows.
-function tmdbRequestInit(key) {
-  const isReadAccessToken = key.startsWith('ey') && key.split('.').length === 3;
-  return {
-    headers: isReadAccessToken
-      ? { Authorization: `Bearer ${key}`, accept: 'application/json' }
-      : { accept: 'application/json' },
-    usesQueryKey: !isReadAccessToken,
-  };
-}
-
-async function callTmdb(pathname, params = {}) {
-  const key = process.env.TMDB_API_KEY;
-  if (!key) {
-    const err = new Error('Movie search is not configured on this server.');
-    err.status = 503;
-    throw err;
-  }
-
-  const { headers, usesQueryKey } = tmdbRequestInit(key);
-  const url = new URL(`${TMDB_BASE}${pathname}`);
-  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-  if (usesQueryKey) url.searchParams.set('api_key', key);
-
-  // Do not let a slow upstream hold the request open indefinitely.
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TMDB_TIMEOUT_MS);
-  try {
-    const response = await fetch(url, { headers, signal: controller.signal });
-    if (!response.ok) {
-      const err = new Error(
-        response.status === 401
-          ? 'Movie search credentials were rejected.'
-          : 'Movie search is unavailable right now.'
-      );
-      err.status = response.status === 401 ? 503 : 502;
-      throw err;
-    }
-    return await response.json();
-  } catch (err) {
-    if (err.name === 'AbortError') {
-      const timeout = new Error('Movie search timed out.');
-      timeout.status = 504;
-      throw timeout;
-    }
-    throw err;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-const releaseYear = (date) =>
-  typeof date === 'string' && date.length >= 4 ? date.slice(0, 4) : '';
 
 // SEARCH: GET /api/catalog/search?q=... — drives the type-ahead. Deliberately
 // lean: TMDB's search payload has no runtime, so the client fetches details
@@ -84,7 +25,7 @@ router.get('/search', async (req, res, next) => {
     const query = (req.query.q || '').trim();
     if (query.length < 2) return res.json({ results: [] });
 
-    const data = await callTmdb('/search/movie', {
+    const data = await tmdbFetch('/search/movie', {
       query,
       include_adult: 'false',
       language: 'en-US',
@@ -111,7 +52,7 @@ router.get('/movie/:tmdbId', async (req, res, next) => {
       return res.status(400).json({ error: 'Invalid movie id.' });
     }
 
-    const movie = await callTmdb(`/movie/${tmdbId}`, { language: 'en-US' });
+    const movie = await tmdbFetch(`/movie/${tmdbId}`, { language: 'en-US' });
 
     res.json({
       movie: {

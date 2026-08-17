@@ -1,6 +1,6 @@
 // Movie Night Picker — Express server.
 // Serves the JSON API under /api and the built React frontend for everything else, so the whole app is same-origin.
-import 'dotenv/config';
+import './env.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
